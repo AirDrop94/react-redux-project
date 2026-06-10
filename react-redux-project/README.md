@@ -1,4 +1,4 @@
 # React + Vite + ReduxToolKit
 
-Just a sandbox for learnig features fro, ReactJS, Redux etc.
+Just a sandbox for learnig features from ReactJS, Redux etc.
 
