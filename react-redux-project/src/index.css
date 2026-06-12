@@ -1,22 +1,29 @@
-* {
-  box-sizing: border-box;
+.header {
+  padding: 20px;
+  background-color: #222;
 }
 
-body {
-  margin: 0;
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-  background-color: #f5f5f5;
-  color: #222;
+.nav {
+  display: flex;
+  gap: 20px;
 }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
+.nav__link {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
 }
 
-input {
-  font-family: inherit;
+.nav__link:hover {
+  text-decoration: underline;
+}
+
+.nav__link.active {
+  color: #61dafb;
+}
+
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 20px;
 }
