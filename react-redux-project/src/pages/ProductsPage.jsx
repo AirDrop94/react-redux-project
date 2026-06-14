@@ -1,17 +1,24 @@
-import { useSelector } from "react-redux";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import ErrorMessage from "../components/ErrorMessage";
-import Loader from "../components/Loader";
-import ProductList from "../components/products/ProductList";
-
+import ErrorMessage from '../components/ErrorMessage';
+import Loader from '../components/Loader';
+import ProductList from '../components/products/ProductList';
+import { fetchProducts } from '../features/products/productsSlice';
 
 function ProductsPage() {
+  const dispatch = useDispatch();
+
   const products = useSelector((state) => state.products.products);
   const isLoading = useSelector((state) => state.products.isLoading);
   const error = useSelector((state) => state.products.error);
 
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
   if (isLoading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   if (error) {
@@ -21,9 +28,9 @@ function ProductsPage() {
   return (
     <section>
       <h1>Products Page</h1>
-      <p>Here will display products from an external API.</p>
+      <p>Products are loaded from an external API.</p>
 
-      <ProductList products={products}/>
+      <ProductList products={products} />
     </section>
   );
 }
