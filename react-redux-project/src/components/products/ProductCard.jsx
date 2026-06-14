@@ -8,11 +8,21 @@ function ProductCard({ product }) {
       />
 
       <div className="product-card__content">
-        <h3 className="product-card__title">{product.title}</h3>
-
         <p className="product-card__category">{product.category}</p>
 
-        <p className="product-card__price">${product.price}</p>
+        <h3 className="product-card__title">{product.title}</h3>
+
+        <p className="product-card__description">{product.description}</p>
+
+        <div className="product-card__footer">
+          <p className="product-card__price">${product.price}</p>
+
+          {product.rating && (
+            <p className="product-card__rating">
+              Rating: {product.rating.rate} / 5
+            </p>
+          )}
+        </div>
       </div>
     </article>
   );

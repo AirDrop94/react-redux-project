@@ -13,6 +13,10 @@ function ProductsPage() {
   const isLoading = useSelector((state) => state.products.isLoading);
   const error = useSelector((state) => state.products.error);
 
+  const handleRetry = () => {
+    dispatch(fetchProducts());
+  };
+
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
@@ -22,7 +26,7 @@ function ProductsPage() {
   }
 
   if (error) {
-    return <ErrorMessage message={error} />;
+    return <ErrorMessage message={error} onRetry={handleRetry} />;
   }
 
   return (
@@ -30,7 +34,11 @@ function ProductsPage() {
       <h1>Products Page</h1>
       <p>Products are loaded from an external API.</p>
 
-      <ProductList products={products} />
+      {products.length > 0 ? (
+        <ProductList products={products} />
+      ) : (
+        <p>No products found.</p>
+      )}
     </section>
   );
 }
