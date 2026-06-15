@@ -223,3 +223,32 @@
 .not-found-page a:hover {
   text-decoration: underline;
 }
+
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.category-filter__button {
+  padding: 8px 14px;
+  color: #222;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+}
+
+.category-filter__button:hover {
+  background-color: #f0f0f0;
+}
+
+.category-filter__button--active {
+  color: white;
+  background-color: #222;
+  border-color: #222;
+}
+
+.category-filter__button--active:hover {
+  background-color: #222;
+}
