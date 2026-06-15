@@ -5,11 +5,14 @@ import ErrorMessage from '../components/ErrorMessage';
 import Loader from '../components/Loader';
 import CategoryFilter from '../components/products/CategoryFilter';
 import ProductList from '../components/products/ProductList';
+import ProductSearch from '../components/products/ProductSearch';
 import { fetchProducts } from '../features/products/productsSlice';
 
 function ProductsPage() {
   const dispatch = useDispatch();
+
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchValue, setSearchValue] = useState('');
 
   const products = useSelector((state) => state.products.products);
   const isLoading = useSelector((state) => state.products.isLoading);
@@ -20,12 +23,17 @@ function ProductsPage() {
   }, [products]);
 
   const filteredProducts = useMemo(() => {
-    if (selectedCategory === 'all') {
-      return products;
-    }
+    return products.filter((product) => {
+      const matchesCategory =
+        selectedCategory === 'all' || product.category === selectedCategory;
 
-    return products.filter((product) => product.category === selectedCategory);
-  }, [products, selectedCategory]);
+      const matchesSearch = product.title
+        .toLowerCase()
+        .includes(searchValue.toLowerCase().trim());
+
+      return matchesCategory && matchesSearch;
+    });
+  }, [products, selectedCategory, searchValue]);
 
   const handleRetry = () => {
     dispatch(fetchProducts());
@@ -50,6 +58,11 @@ function ProductsPage() {
 
       {products.length > 0 ? (
         <>
+          <ProductSearch
+            searchValue={searchValue}
+            onSearchChange={setSearchValue}
+          />
+
           <CategoryFilter
             categories={categories}
             selectedCategory={selectedCategory}
@@ -59,7 +72,7 @@ function ProductsPage() {
           {filteredProducts.length > 0 ? (
             <ProductList products={filteredProducts} />
           ) : (
-            <p>No products found in this category.</p>
+            <p>No products found.</p>
           )}
         </>
       ) : (

@@ -4,7 +4,7 @@ function ErrorMessage({ message, onRetry }) {
       <p>{message}</p>
 
       {onRetry && (
-        <button type="button" oonClick={onRetry}>
+        <button type="button" onClick={onRetry}>
           Try again
         </button>
       )}
