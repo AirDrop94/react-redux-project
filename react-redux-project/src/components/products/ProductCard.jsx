@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 
+import { getProductDetailsRoute } from '../../constants/routes';
+
 function ProductCard({ product }) {
   return (
     <article className="product-card">
-      <Link className="product-card__link" to={`/products/${product.id}`}>
+      <Link className="product-card__link" to={getProductDetailsRoute(product.id)}>
         <img
           className="product-card__image"
           src={product.image}

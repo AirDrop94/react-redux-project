@@ -6,26 +6,27 @@ import AboutPage from "./pages/AboutPage";
 import ProductsPage from "./pages/ProductsPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import NotFoundPage from './pages/NotFoundPage';
+import { ROUTES } from './constants/routes';
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Layout/>,
+    path: ROUTES.HOME,
+    element: <Layout />,
     children: [
       {
         index: true,
-        element: <HomePage/>,
+        element: <HomePage />,
       },
       {
-        path: 'products',
-        element: <ProductsPage/>,
+        path: ROUTES.PRODUCTS,
+        element: <ProductsPage />,
       },
       {
-        path: 'products/:productId',
+        path: ROUTES.PRODUCT_DETAILS,
         element: <ProductDetailsPage />,
       },
       {
-        path: 'about',
+        path: ROUTES.ABOUT,
         element: <AboutPage />,
       },
       {

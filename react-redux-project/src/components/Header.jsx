@@ -1,18 +1,20 @@
 import { NavLink } from 'react-router-dom';
 
+import { ROUTES } from '../constants/routes';
+
 function Header() {
   return (
     <header className="header">
       <nav className="nav">
-        <NavLink to="/" className="nav__link">
+        <NavLink to={ROUTES.HOME} className="nav__link">
           Home
         </NavLink>
 
-        <NavLink to="/products" className="nav__link">
+        <NavLink to={ROUTES.PRODUCTS} className="nav__link">
           Products
         </NavLink>
 
-        <NavLink to="/about" className="nav__link">
+        <NavLink to={ROUTES.ABOUT} className="nav__link">
           About
         </NavLink>
       </nav>

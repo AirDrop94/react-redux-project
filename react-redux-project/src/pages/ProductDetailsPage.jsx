@@ -4,31 +4,24 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import ErrorMessage from '../components/ErrorMessage';
 import Loader from '../components/Loader';
+import { fetchProductById } from '../features/products/productsThunks';
 import {
-  clearSelectedProduct,
-  fetchProductById,
-} from '../features/products/productsSlice';
+  selectProductError,
+  selectProductLoading,
+  selectSelectedProduct,
+} from '../features/products/selectors';
+import { ROUTES } from '../constants/routes';
 
 function ProductDetailsPage() {
   const { productId } = useParams();
   const dispatch = useDispatch();
 
-  const selectedProduct = useSelector(
-    (state) => state.products.selectedProduct,
-  );
-
-  const isProductLoading = useSelector(
-    (state) => state.products.isProductLoading,
-  );
-
-  const productError = useSelector((state) => state.products.productError);
+  const selectedProduct = useSelector(selectSelectedProduct);
+  const isProductLoading = useSelector(selectProductLoading);
+  const productError = useSelector(selectProductError);
 
   useEffect(() => {
     dispatch(fetchProductById(productId));
-
-    return () => {
-      dispatch(clearSelectedProduct());
-    };
   }, [dispatch, productId]);
 
   if (isProductLoading) {
@@ -49,14 +42,14 @@ function ProductDetailsPage() {
       <section>
         <h1>Product not found</h1>
 
-        <Link to="/products">Back to products</Link>
+        <Link to={ROUTES.PRODUCTS}>Back to products</Link>
       </section>
     );
   }
 
   return (
     <section className="product-details">
-      <Link className="product-details__back" to="/products">
+      <Link className="product-details__back" to={ROUTES.PRODUCTS}>
         Back to products
       </Link>
 

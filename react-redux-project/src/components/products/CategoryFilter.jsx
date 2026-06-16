@@ -1,14 +1,16 @@
+import { PRODUCT_CATEGORIES } from '../../constants/products';
+
 function CategoryFilter({ categories, selectedCategory, onCategoryChange }) {
   return (
     <div className="category-filter">
       <button
         className={
-          selectedCategory === 'all'
+          selectedCategory === PRODUCT_CATEGORIES.ALL
             ? 'category-filter__button category-filter__button--active'
             : 'category-filter__button'
         }
         type="button"
-        onClick={() => onCategoryChange('all')}
+        onClick={() => onCategoryChange(PRODUCT_CATEGORIES.ALL)}
       >
         All
       </button>

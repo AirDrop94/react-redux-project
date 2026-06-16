@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import { ROUTES } from '../constants/routes';
+
 function NotFoundPage() {
   return (
     <section className="not-found-page">
@@ -7,7 +9,7 @@ function NotFoundPage() {
 
       <p>Page not found.</p>
 
-      <Link to="/">Back to home</Link>
+      <Link to={ROUTES.HOME}>Back to home</Link>
     </section>
   );
 }

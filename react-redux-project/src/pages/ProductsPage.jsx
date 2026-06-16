@@ -6,17 +6,25 @@ import Loader from '../components/Loader';
 import CategoryFilter from '../components/products/CategoryFilter';
 import ProductList from '../components/products/ProductList';
 import ProductSearch from '../components/products/ProductSearch';
-import { fetchProducts } from '../features/products/productsSlice';
+import {
+  selectProducts,
+  selectProductsError,
+  selectProductsLoading,
+} from '../features/products/selectors';
+import { fetchProducts } from '../features/products/productsThunks';
+import { PRODUCT_CATEGORIES } from '../constants/products';
 
 function ProductsPage() {
   const dispatch = useDispatch();
 
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState(
+    PRODUCT_CATEGORIES.ALL,
+  );
   const [searchValue, setSearchValue] = useState('');
 
-  const products = useSelector((state) => state.products.products);
-  const isLoading = useSelector((state) => state.products.isLoading);
-  const error = useSelector((state) => state.products.error);
+  const products = useSelector(selectProducts);
+  const isLoading = useSelector(selectProductsLoading);
+  const error = useSelector(selectProductsError);
 
   const categories = useMemo(() => {
     return [...new Set(products.map((product) => product.category))];
@@ -25,7 +33,7 @@ function ProductsPage() {
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       const matchesCategory =
-        selectedCategory === 'all' || product.category === selectedCategory;
+        selectedCategory === PRODUCT_CATEGORIES.ALL || product.category === selectedCategory;
 
       const matchesSearch = product.title
         .toLowerCase()
