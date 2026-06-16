@@ -1,9 +1,44 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import Layout from "./components/Layout";
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import ProductsPage from "./pages/ProductsPage";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
+import NotFoundPage from './pages/NotFoundPage';
+import { ROUTES } from './constants/routes';
+
+const router = createBrowserRouter([
+  {
+    path: ROUTES.HOME,
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: ROUTES.PRODUCTS,
+        element: <ProductsPage />,
+      },
+      {
+        path: ROUTES.PRODUCT_DETAILS,
+        element: <ProductDetailsPage />,
+      },
+      {
+        path: ROUTES.ABOUT,
+        element: <AboutPage />,
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
+      },
+    ],
+  },
+]);
+
 function App() {
-  return (
-    <div>
-      <h1>React + Redux Project</h1>
-    </div>
-  );
+  return <RouterProvider router={router}/>
 }
 
 export default App;
