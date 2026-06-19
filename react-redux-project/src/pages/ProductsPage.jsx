@@ -6,13 +6,15 @@ import Loader from '../components/Loader';
 import CategoryFilter from '../components/products/CategoryFilter';
 import ProductList from '../components/products/ProductList';
 import ProductSearch from '../components/products/ProductSearch';
+import ProductSort from '../components/products/ProductSort';
+import { PRODUCT_CATEGORIES } from '../constants/products';
+import { SORT_OPTIONS } from '../constants/sort';
 import {
   selectProducts,
   selectProductsError,
   selectProductsLoading,
 } from '../features/products/selectors';
 import { fetchProducts } from '../features/products/productsThunks';
-import { PRODUCT_CATEGORIES } from '../constants/products';
 
 function ProductsPage() {
   const dispatch = useDispatch();
@@ -21,6 +23,7 @@ function ProductsPage() {
     PRODUCT_CATEGORIES.ALL,
   );
   const [searchValue, setSearchValue] = useState('');
+  const [sortValue, setSortValue] = useState(SORT_OPTIONS.DEFAULT);
 
   const products = useSelector(selectProducts);
   const isLoading = useSelector(selectProductsLoading);
@@ -31,9 +34,10 @@ function ProductsPage() {
   }, [products]);
 
   const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
+    const filtered = products.filter((product) => {
       const matchesCategory =
-        selectedCategory === PRODUCT_CATEGORIES.ALL || product.category === selectedCategory;
+        selectedCategory === PRODUCT_CATEGORIES.ALL ||
+        product.category === selectedCategory;
 
       const matchesSearch = product.title
         .toLowerCase()
@@ -41,7 +45,26 @@ function ProductsPage() {
 
       return matchesCategory && matchesSearch;
     });
-  }, [products, selectedCategory, searchValue]);
+
+    return [...filtered].sort((firstProduct, secondProduct) => {
+      switch (sortValue) {
+        case SORT_OPTIONS.PRICE_ASC:
+          return firstProduct.price - secondProduct.price;
+
+        case SORT_OPTIONS.PRICE_DESC:
+          return secondProduct.price - firstProduct.price;
+
+        case SORT_OPTIONS.TITLE_ASC:
+          return firstProduct.title.localeCompare(secondProduct.title);
+
+        case SORT_OPTIONS.TITLE_DESC:
+          return secondProduct.title.localeCompare(firstProduct.title);
+
+        default:
+          return 0;
+      }
+    });
+  }, [products, selectedCategory, searchValue, sortValue]);
 
   const handleRetry = () => {
     dispatch(fetchProducts());
@@ -69,6 +92,11 @@ function ProductsPage() {
           <ProductSearch
             searchValue={searchValue}
             onSearchChange={setSearchValue}
+          />
+
+          <ProductSort 
+            sortValue={sortValue} 
+            onSortChange={setSortValue} 
           />
 
           <CategoryFilter
