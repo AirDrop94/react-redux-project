@@ -3,6 +3,7 @@ export const ROUTES = {
   ABOUT: '/about',
   PRODUCTS: '/products',
   PRODUCT_DETAILS: '/products/:productId',
+  CART: '/cart',
 };
 
 export const getProductDetailsRoute = (productId) =>
