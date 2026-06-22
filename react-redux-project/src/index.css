@@ -1,6 +1,10 @@
 .header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   padding: 20px;
   background-color: #222;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
 }
 
 .nav {
