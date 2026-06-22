@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, logoutUser } from '../features/auth/authSlice';
 import { selectAuthUser } from '../features/auth/selectors';
 import { validateAuthForm } from '../features/auth/validation';
+import { getCartStorageKey } from '../constants/storage';
+import { setCartItems } from '../features/cart/cartSlice';
+import { getStorageItem } from '../utils/localStorage';
 
 const initialFormValues = {
   username: '',
@@ -42,15 +45,25 @@ function AuthPage() {
       return;
     }
 
-    dispatch(
-      loginUser({
-        username: formValues.username.trim(),
-        email: formValues.email.trim(),
-      }),
-    );
+    const user = {
+      username: formValues.username.trim(),
+      email: formValues.email.trim(),
+    };
+
+    const userCartItems = getStorageItem(getCartStorageKey(user), []);
+
+    dispatch(loginUser(user));
+    dispatch(setCartItems(userCartItems));
 
     setFormValues(initialFormValues);
     setErrors({});
+  };
+
+  const handleLogout = () => {
+    const guestCartItems = getStorageItem(getCartStorageKey(null), []);
+
+    dispatch(logoutUser());
+    dispatch(setCartItems(guestCartItems));
   };
 
   if (authUser) {
@@ -65,7 +78,7 @@ function AuthPage() {
 
           <p>Email: {authUser.email}</p>
 
-          <button type="button" onClick={() => dispatch(logoutUser())}>
+          <button type="button" onClick={handleLogout}>
             Logout
           </button>
         </div>

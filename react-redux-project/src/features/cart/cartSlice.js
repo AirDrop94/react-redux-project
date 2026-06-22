@@ -1,16 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { STORAGE_KEYS } from '../../constants/storage';
+import { getCartStorageKey, STORAGE_KEYS } from '../../constants/storage';
 import { getStorageItem } from '../../utils/localStorage';
 
+const authUser = getStorageItem(STORAGE_KEYS.AUTH_USER, null);
+
 const initialState = {
-  items: getStorageItem(STORAGE_KEYS.CART_ITEMS, []),
+  items: getStorageItem(getCartStorageKey(authUser), []),
 };
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    setCartItems: (state, action) => {
+      state.items = action.payload;
+    },
+
     addToCart: (state, action) => {
       const product = action.payload;
 
@@ -31,7 +37,9 @@ const cartSlice = createSlice({
     },
 
     increaseQuantity: (state, action) => {
-      const item = state.items.find((cartItem) => cartItem.id === action.payload);
+      const item = state.items.find(
+        (cartItem) => cartItem.id === action.payload,
+      );
 
       if (item) {
         item.quantity += 1;
@@ -39,7 +47,9 @@ const cartSlice = createSlice({
     },
 
     decreaseQuantity: (state, action) => {
-      const item = state.items.find((cartItem) => cartItem.id === action.payload);
+      const item = state.items.find(
+        (cartItem) => cartItem.id === action.payload,
+      );
 
       if (!item) {
         return;
@@ -66,6 +76,7 @@ export const {
   decreaseQuantity,
   increaseQuantity,
   removeFromCart,
+  setCartItems,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

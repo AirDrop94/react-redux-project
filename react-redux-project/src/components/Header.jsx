@@ -5,12 +5,21 @@ import { ROUTES } from '../constants/routes';
 import { logoutUser } from '../features/auth/authSlice';
 import { selectAuthUser } from '../features/auth/selectors';
 import { selectCartTotalQuantity } from '../features/cart/selectors';
+import { getCartStorageKey } from '../constants/storage';
+import { setCartItems } from '../features/cart/cartSlice';
+import { getStorageItem } from '../utils/localStorage';
 
 function Header() {
   const dispatch = useDispatch();
 
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
   const authUser = useSelector(selectAuthUser);
+  const handleLogout = () => {
+    const guestCartItems = getStorageItem(getCartStorageKey(null), []);
+
+    dispatch(logoutUser());
+    dispatch(setCartItems(guestCartItems));
+  };
 
   return (
     <header className="header">
@@ -39,7 +48,7 @@ function Header() {
           <button
             className="nav__button"
             type="button"
-            onClick={() => dispatch(logoutUser())}
+            onClick={handleLogout}
           >
             Logout
           </button>

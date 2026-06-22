@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { STORAGE_KEYS } from '../constants/storage';
+import { getCartStorageKey, STORAGE_KEYS } from '../constants/storage';
 import authReducer from '../features/auth/authSlice';
 import { selectAuthUser } from '../features/auth/selectors';
 import cartReducer from '../features/cart/cartSlice';
@@ -27,7 +27,7 @@ store.subscribe(() => {
   currentAuthUser = selectAuthUser(store.getState());
 
   if (previousCartItems !== currentCartItems) {
-    setStorageItem(STORAGE_KEYS.CART_ITEMS, currentCartItems);
+    setStorageItem(getCartStorageKey(currentAuthUser), currentCartItems);
   }
 
   if (previousAuthUser !== currentAuthUser) {
