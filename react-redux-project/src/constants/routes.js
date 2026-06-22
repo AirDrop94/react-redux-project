@@ -4,6 +4,7 @@ export const ROUTES = {
   PRODUCTS: '/products',
   PRODUCT_DETAILS: '/products/:productId',
   CART: '/cart',
+  AUTH: '/auth',
 };
 
 export const getProductDetailsRoute = (productId) =>

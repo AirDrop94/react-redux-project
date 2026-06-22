@@ -8,6 +8,7 @@ import ProductDetailsPage from "./pages/ProductDetailsPage";
 import NotFoundPage from './pages/NotFoundPage';
 import CartPage from './pages/CartPage';
 import { ROUTES } from './constants/routes';
+import AuthPage from './pages/AuthPage';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.CART,
         element: <CartPage />,
+      },
+      {
+        path: ROUTES.AUTH,
+        element: <AuthPage />,
       },
     ],
   },
