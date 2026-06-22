@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { STORAGE_KEYS } from '../../constants/storage';
+import { getStorageItem } from '../../utils/localStorage';
+
 const initialState = {
-  items: [],
+  items: getStorageItem(STORAGE_KEYS.CART_ITEMS, []),
 };
 
 const cartSlice = createSlice({
