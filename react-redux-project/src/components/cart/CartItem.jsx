@@ -8,43 +8,34 @@ import {
   removeFromCart,
 } from '../../features/cart/cartSlice';
 
-function CartItem({ item }) {
+function CartItem({ id, title, price, image, quantity }) {
   const dispatch = useDispatch();
 
   return (
     <article className="cart-item">
-      <Link to={getProductDetailsRoute(item.id)}>
-        <img className="cart-item__image" src={item.image} alt={item.title} />
+      <Link to={getProductDetailsRoute(id)}>
+        <img className="cart-item__image" src={image} alt={title} />
       </Link>
 
       <div className="cart-item__content">
-        <Link className="cart-item__title" to={getProductDetailsRoute(item.id)}>
-          {item.title}
+        <Link className="cart-item__title" to={getProductDetailsRoute(id)}>
+          {title}
         </Link>
 
-        <p className="cart-item__price">${item.price}</p>
+        <p className="cart-item__price">${price}</p>
 
         <div className="cart-item__actions">
-          <button
-            type="button"
-            onClick={() => dispatch(decreaseQuantity(item.id))}
-          >
+          <button type="button" onClick={() => dispatch(decreaseQuantity(id))}>
             -
           </button>
 
-          <span>{item.quantity}</span>
+          <span>{quantity}</span>
 
-          <button
-            type="button"
-            onClick={() => dispatch(increaseQuantity(item.id))}
-          >
+          <button type="button" onClick={() => dispatch(increaseQuantity(id))}>
             +
           </button>
 
-          <button
-            type="button"
-            onClick={() => dispatch(removeFromCart(item.id))}
-          >
+          <button type="button" onClick={() => dispatch(removeFromCart(id))}>
             Remove
           </button>
         </div>

@@ -36,7 +36,14 @@ function CartPage() {
       <div className="cart-page__content">
         <div className="cart-page__items">
           {cartItems.map((item) => (
-            <CartItem key={item.id} item={item} />
+            <CartItem
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              price={item.price}
+              image={item.image}
+              quantity={item.quantity}
+            />
           ))}
         </div>
 
