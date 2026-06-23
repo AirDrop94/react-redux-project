@@ -3,6 +3,8 @@ export const ROUTES = {
   ABOUT: '/about',
   PRODUCTS: '/products',
   PRODUCT_DETAILS: '/products/:productId',
+  CART: '/cart',
+  AUTH: '/auth',
 };
 
 export const getProductDetailsRoute = (productId) =>

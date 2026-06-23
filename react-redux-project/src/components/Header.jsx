@@ -1,8 +1,26 @@
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ROUTES } from '../constants/routes';
+import { logoutUser } from '../features/auth/authSlice';
+import { selectAuthUser } from '../features/auth/selectors';
+import { selectCartTotalQuantity } from '../features/cart/selectors';
+import { getCartStorageKey } from '../constants/storage';
+import { setCartItems } from '../features/cart/cartSlice';
+import { getStorageItem } from '../utils/localStorage';
 
 function Header() {
+  const dispatch = useDispatch();
+
+  const cartTotalQuantity = useSelector(selectCartTotalQuantity);
+  const authUser = useSelector(selectAuthUser);
+  const handleLogout = () => {
+    const guestCartItems = getStorageItem(getCartStorageKey(null), []);
+
+    dispatch(logoutUser());
+    dispatch(setCartItems(guestCartItems));
+  };
+
   return (
     <header className="header">
       <nav className="nav">
@@ -14,9 +32,27 @@ function Header() {
           Products
         </NavLink>
 
+        <NavLink to={ROUTES.CART} className="nav__link">
+          Cart ({cartTotalQuantity})
+        </NavLink>
+
         <NavLink to={ROUTES.ABOUT} className="nav__link">
           About
         </NavLink>
+
+        <NavLink to={ROUTES.AUTH} className="nav__link">
+          {authUser ? authUser.username : 'Login'}
+        </NavLink>
+
+        {authUser && (
+          <button
+            className="nav__button"
+            type="button"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        )}
       </nav>
     </header>
   );

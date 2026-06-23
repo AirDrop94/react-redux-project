@@ -10,6 +10,7 @@ import {
   selectProductLoading,
   selectSelectedProduct,
 } from '../features/products/selectors';
+import { addToCart } from '../features/cart/cartSlice';
 import { ROUTES } from '../constants/routes';
 
 function ProductDetailsPage() {
@@ -72,6 +73,14 @@ function ProductDetailsPage() {
           </p>
 
           <p className="product-details__price">${selectedProduct.price}</p>
+
+          <button
+            className="product-details__button"
+            type="button"
+            onClick={() => dispatch(addToCart(selectedProduct))}
+          >
+            Add to cart
+          </button>
 
           {selectedProduct.rating && (
             <p className="product-details__rating">
