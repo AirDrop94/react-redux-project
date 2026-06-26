@@ -12,3 +12,12 @@ export type Product = {
   image: string;
   rating?: ProductRating;
 };
+
+export type ProductsState = {
+  products: Product[];
+  selectedProduct: Product | null;
+  isLoading: boolean;
+  isProductLoading: boolean;
+  error: string | null;
+  productError: string | null;
+};

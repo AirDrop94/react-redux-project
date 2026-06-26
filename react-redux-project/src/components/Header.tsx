@@ -1,21 +1,26 @@
 import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
+import { getCartStorageKey } from '../constants/storage';
 import { ROUTES } from '../constants/routes';
 import { logoutUser } from '../features/auth/authSlice';
 import { selectAuthUser } from '../features/auth/selectors';
-import { selectCartTotalQuantity } from '../features/cart/selectors';
-import { getCartStorageKey } from '../constants/storage';
 import { setCartItems } from '../features/cart/cartSlice';
+import { selectCartTotalQuantity } from '../features/cart/selectors';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import type { CartItem } from '../types/cart';
 import { getStorageItem } from '../utils/localStorage';
 
 function Header() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const cartTotalQuantity = useSelector(selectCartTotalQuantity);
-  const authUser = useSelector(selectAuthUser);
+  const cartTotalQuantity = useAppSelector(selectCartTotalQuantity);
+  const authUser = useAppSelector(selectAuthUser);
+
   const handleLogout = () => {
-    const guestCartItems = getStorageItem(getCartStorageKey(null), []);
+    const guestCartItems = getStorageItem<CartItem[]>(
+      getCartStorageKey(null),
+      [],
+    );
 
     dispatch(logoutUser());
     dispatch(setCartItems(guestCartItems));
@@ -45,11 +50,7 @@ function Header() {
         </NavLink>
 
         {authUser && (
-          <button
-            className="nav__button"
-            type="button"
-            onClick={handleLogout}
-          >
+          <button className="nav__button" type="button" onClick={handleLogout}>
             Logout
           </button>
         )}

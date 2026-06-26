@@ -1,6 +1,16 @@
 import { PRODUCT_CATEGORIES } from '../../constants/products';
 
-function CategoryFilter({ categories, selectedCategory, onCategoryChange }) {
+type CategoryFilterProps = {
+  categories: string[];
+  selectedCategory: string;
+  onCategoryChange: (category: string) => void;
+};
+
+function CategoryFilter({
+  categories,
+  selectedCategory,
+  onCategoryChange,
+}: CategoryFilterProps) {
   return (
     <div className="category-filter">
       <button

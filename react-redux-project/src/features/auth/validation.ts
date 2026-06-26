@@ -1,5 +1,11 @@
-export const validateAuthForm = ({ username, email, password }) => {
-  const errors = {};
+import type { AuthFormErrors, AuthFormValues } from '../../types/auth';
+
+export const validateAuthForm = ({
+  username,
+  email,
+  password,
+}: AuthFormValues): AuthFormErrors => {
+  const errors: AuthFormErrors = {};
 
   if (!username.trim()) {
     errors.username = 'Login is required';

@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
 import { getProductDetailsRoute } from '../../constants/routes';
 import {
@@ -7,9 +6,18 @@ import {
   increaseQuantity,
   removeFromCart,
 } from '../../features/cart/cartSlice';
+import { useAppDispatch } from '../../store/hooks';
 
-function CartItem({ id, title, price, image, quantity }) {
-  const dispatch = useDispatch();
+type CartItemProps = {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+  quantity: number;
+};
+
+function CartItem({ id, title, price, image, quantity }: CartItemProps) {
+  const dispatch = useAppDispatch();
 
   return (
     <article className="cart-item">

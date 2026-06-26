@@ -1,4 +1,9 @@
-function ErrorMessage({ message, onRetry }) {
+type ErrorMessageProps = {
+  message: string;
+  onRetry?: () => void;
+};
+
+function ErrorMessage({ message, onRetry }: ErrorMessageProps) {
   return (
     <div className="error-message">
       <p>{message}</p>

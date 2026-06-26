@@ -1,21 +1,18 @@
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-
 import CartItem from '../components/cart/CartItem';
-import { ROUTES } from '../constants/routes';
 import { clearCart } from '../features/cart/cartSlice';
 import {
   selectCartItems,
   selectCartTotalPrice,
   selectCartTotalQuantity,
 } from '../features/cart/selectors';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 function CartPage() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const cartItems = useSelector(selectCartItems);
-  const totalQuantity = useSelector(selectCartTotalQuantity);
-  const totalPrice = useSelector(selectCartTotalPrice);
+  const cartItems = useAppSelector(selectCartItems);
+  const totalPrice = useAppSelector(selectCartTotalPrice);
+  const totalQuantity = useAppSelector(selectCartTotalQuantity);
 
   if (cartItems.length === 0) {
     return (
@@ -23,8 +20,6 @@ function CartPage() {
         <h1>Cart</h1>
 
         <p>Your cart is empty.</p>
-
-        <Link to={ROUTES.PRODUCTS}>Go to products</Link>
       </section>
     );
   }
@@ -47,17 +42,17 @@ function CartPage() {
           ))}
         </div>
 
-        <aside className="cart-page__summary">
+        <div className="cart-page__summary">
           <h2>Order summary</h2>
 
-          <p>Total items: {totalQuantity}</p>
+          <p>Total quantity: {totalQuantity}</p>
 
           <p>Total price: ${totalPrice.toFixed(2)}</p>
 
           <button type="button" onClick={() => dispatch(clearCart())}>
             Clear cart
           </button>
-        </aside>
+        </div>
       </div>
     </section>
   );

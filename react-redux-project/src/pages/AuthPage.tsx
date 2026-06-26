@@ -1,41 +1,49 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { type ChangeEvent, type FormEvent, useState } from 'react';
 
+import { getCartStorageKey } from '../constants/storage';
 import { loginUser, logoutUser } from '../features/auth/authSlice';
 import { selectAuthUser } from '../features/auth/selectors';
 import { validateAuthForm } from '../features/auth/validation';
-import { getCartStorageKey } from '../constants/storage';
 import { setCartItems } from '../features/cart/cartSlice';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import type {
+  AuthFormErrors,
+  AuthFormValues,
+  AuthUser,
+} from '../types/auth';
+import type { CartItem } from '../types/cart';
 import { getStorageItem } from '../utils/localStorage';
 
-const initialFormValues = {
+const initialFormValues: AuthFormValues = {
   username: '',
   email: '',
   password: '',
 };
 
 function AuthPage() {
-  const dispatch = useDispatch();
-  const authUser = useSelector(selectAuthUser);
+  const dispatch = useAppDispatch();
+  const authUser = useAppSelector(selectAuthUser);
 
-  const [formValues, setFormValues] = useState(initialFormValues);
-  const [errors, setErrors] = useState({});
+  const [formValues, setFormValues] =
+    useState<AuthFormValues>(initialFormValues);
+  const [errors, setErrors] = useState<AuthFormErrors>({});
 
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    const fieldName = name as keyof AuthFormValues;
 
     setFormValues((currentValues) => ({
       ...currentValues,
-      [name]: value,
+      [fieldName]: value,
     }));
 
     setErrors((currentErrors) => ({
       ...currentErrors,
-      [name]: '',
+      [fieldName]: '',
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const validationErrors = validateAuthForm(formValues);
@@ -45,12 +53,15 @@ function AuthPage() {
       return;
     }
 
-    const user = {
+    const user: AuthUser = {
       username: formValues.username.trim(),
       email: formValues.email.trim(),
     };
 
-    const userCartItems = getStorageItem(getCartStorageKey(user), []);
+    const userCartItems = getStorageItem<CartItem[]>(
+      getCartStorageKey(user),
+      [],
+    );
 
     dispatch(loginUser(user));
     dispatch(setCartItems(userCartItems));
@@ -60,7 +71,10 @@ function AuthPage() {
   };
 
   const handleLogout = () => {
-    const guestCartItems = getStorageItem(getCartStorageKey(null), []);
+    const guestCartItems = getStorageItem<CartItem[]>(
+      getCartStorageKey(null),
+      [],
+    );
 
     dispatch(logoutUser());
     dispatch(setCartItems(guestCartItems));

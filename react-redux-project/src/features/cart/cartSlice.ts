@@ -1,23 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import { getCartStorageKey, STORAGE_KEYS } from '../../constants/storage';
+import type { AuthUser } from '../../types/auth';
+import type { CartItem, CartState } from '../../types/cart';
+import type { Product } from '../../types/product';
 import { getStorageItem } from '../../utils/localStorage';
 
-const authUser = getStorageItem(STORAGE_KEYS.AUTH_USER, null);
+const authUser = getStorageItem<AuthUser | null>(STORAGE_KEYS.AUTH_USER, null);
 
-const initialState = {
-  items: getStorageItem(getCartStorageKey(authUser), []),
+const initialState: CartState = {
+  items: getStorageItem<CartItem[]>(getCartStorageKey(authUser), []),
 };
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    setCartItems: (state, action) => {
+    setCartItems: (state, action: PayloadAction<CartItem[]>) => {
       state.items = action.payload;
     },
 
-    addToCart: (state, action) => {
+    addToCart: (state, action: PayloadAction<Product>) => {
       const product = action.payload;
 
       const existingItem = state.items.find((item) => item.id === product.id);
@@ -32,11 +35,11 @@ const cartSlice = createSlice({
       }
     },
 
-    removeFromCart: (state, action) => {
+    removeFromCart: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
     },
 
-    increaseQuantity: (state, action) => {
+    increaseQuantity: (state, action: PayloadAction<number>) => {
       const item = state.items.find(
         (cartItem) => cartItem.id === action.payload,
       );
@@ -46,7 +49,7 @@ const cartSlice = createSlice({
       }
     },
 
-    decreaseQuantity: (state, action) => {
+    decreaseQuantity: (state, action: PayloadAction<number>) => {
       const item = state.items.find(
         (cartItem) => cartItem.id === action.payload,
       );

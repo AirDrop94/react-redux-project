@@ -1,17 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import { STORAGE_KEYS } from '../../constants/storage';
+import type { AuthState, AuthUser } from '../../types/auth';
 import { getStorageItem } from '../../utils/localStorage';
 
-const initialState = {
-  user: getStorageItem(STORAGE_KEYS.AUTH_USER, null),
+const initialState: AuthState = {
+  user: getStorageItem<AuthUser | null>(STORAGE_KEYS.AUTH_USER, null),
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    loginUser: (state, action) => {
+    loginUser: (state, action: PayloadAction<AuthUser>) => {
       state.user = action.payload;
     },
 
