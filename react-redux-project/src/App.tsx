@@ -1,14 +1,14 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import Layout from "./components/Layout";
-import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/AboutPage";
-import ProductsPage from "./pages/ProductsPage";
-import ProductDetailsPage from "./pages/ProductDetailsPage";
-import NotFoundPage from './pages/NotFoundPage';
-import CartPage from './pages/CartPage';
+import Layout from './components/Layout';
 import { ROUTES } from './constants/routes';
+import AboutPage from './pages/AboutPage';
 import AuthPage from './pages/AuthPage';
+import CartPage from './pages/CartPage';
+import HomePage from './pages/HomePage';
+import NotFoundPage from './pages/NotFoundPage';
+import ProductDetailsPage from './pages/ProductDetailsPage';
+import ProductsPage from './pages/ProductsPage';
 
 const router = createBrowserRouter([
   {
@@ -28,14 +28,6 @@ const router = createBrowserRouter([
         element: <ProductDetailsPage />,
       },
       {
-        path: ROUTES.ABOUT,
-        element: <AboutPage />,
-      },
-      {
-        path: '*',
-        element: <NotFoundPage />,
-      },
-      {
         path: ROUTES.CART,
         element: <CartPage />,
       },
@@ -43,12 +35,20 @@ const router = createBrowserRouter([
         path: ROUTES.AUTH,
         element: <AuthPage />,
       },
+      {
+        path: ROUTES.ABOUT,
+        element: <AboutPage />,
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
+      },
     ],
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router}/>
+  return <RouterProvider router={router} />;
 }
 
 export default App;
