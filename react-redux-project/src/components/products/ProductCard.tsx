@@ -4,6 +4,7 @@ import { getProductDetailsRoute } from '../../constants/routes';
 import { addToCart } from '../../features/cart/cartSlice';
 import { useAppDispatch } from '../../store/hooks';
 import type { Product } from '../../types/product';
+import Button from '../ui/Button';
 
 type ProductCardProps = {
   product: Product;
@@ -34,13 +35,12 @@ function ProductCard({ product }: ProductCardProps) {
 
         <p className="product-card__price">${product.price}</p>
 
-        <button
+        <Button
           className="product-card__button"
-          type="button"
           onClick={() => dispatch(addToCart(product))}
         >
           Add to cart
-        </button>
+        </Button>
       </div>
     </article>
   );

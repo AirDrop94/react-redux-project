@@ -7,6 +7,7 @@ import {
   removeFromCart,
 } from '../../features/cart/cartSlice';
 import { useAppDispatch } from '../../store/hooks';
+import Button from '../ui/Button';
 
 type CartItemProps = {
   id: number;
@@ -33,19 +34,29 @@ function CartItem({ id, title, price, image, quantity }: CartItemProps) {
         <p className="cart-item__price">${price}</p>
 
         <div className="cart-item__actions">
-          <button type="button" onClick={() => dispatch(decreaseQuantity(id))}>
+          <Button
+            variant="secondary"
+            size="small"
+            onClick={() => dispatch(decreaseQuantity(id))}
+          >
             -
-          </button>
+          </Button>
 
-          <span>{quantity}</span>
-
-          <button type="button" onClick={() => dispatch(increaseQuantity(id))}>
+          <Button
+            variant="secondary"
+            size="small"
+            onClick={() => dispatch(increaseQuantity(id))}
+          >
             +
-          </button>
+          </Button>
 
-          <button type="button" onClick={() => dispatch(removeFromCart(id))}>
+          <Button
+            variant="danger"
+            size="small"
+            onClick={() => dispatch(removeFromCart(id))}
+          >
             Remove
-          </button>
+          </Button>
         </div>
       </div>
     </article>

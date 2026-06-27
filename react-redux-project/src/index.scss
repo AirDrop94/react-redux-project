@@ -510,3 +510,69 @@
 .auth-card button:hover {
   background-color: #444;
 }
+
+.button {
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.button--small {
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+.button--medium {
+  padding: 10px 14px;
+  font-size: 16px;
+}
+
+.button--primary {
+  color: white;
+  background-color: #222;
+}
+
+.button--primary:hover:not(:disabled) {
+  background-color: #444;
+}
+
+.button--secondary {
+  color: #222;
+  background-color: white;
+  border: 1px solid #ddd;
+}
+
+.button--secondary:hover:not(:disabled) {
+  background-color: #f0f0f0;
+}
+
+.button--danger {
+  color: white;
+  background-color: #d00000;
+}
+
+.button--danger:hover:not(:disabled) {
+  background-color: #a80000;
+}
+
+.button--ghost {
+  color: inherit;
+  background-color: transparent;
+  padding: 0;
+}
+
+.button--ghost:hover:not(:disabled) {
+  text-decoration: underline;
+}

@@ -1,3 +1,5 @@
+import Button from './ui/Button';
+
 type ErrorMessageProps = {
   message: string;
   onRetry?: () => void;
@@ -8,11 +10,7 @@ function ErrorMessage({ message, onRetry }: ErrorMessageProps) {
     <div className="error-message">
       <p>{message}</p>
 
-      {onRetry && (
-        <button type="button" onClick={onRetry}>
-          Try again
-        </button>
-      )}
+      {onRetry && <Button onClick={onRetry}>Try again</Button>}
     </div>
   );
 }

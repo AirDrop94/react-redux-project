@@ -9,6 +9,7 @@ import { selectCartTotalQuantity } from '../features/cart/selectors';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import type { CartItem } from '../types/cart';
 import { getStorageItem } from '../utils/localStorage';
+import Button from './ui/Button';
 
 function Header() {
   const dispatch = useAppDispatch();
@@ -50,9 +51,9 @@ function Header() {
         </NavLink>
 
         {authUser && (
-          <button className="nav__button" type="button" onClick={handleLogout}>
+          <Button className="nav__button" variant="ghost" onClick={handleLogout}>
             Logout
-          </button>
+          </Button>
         )}
       </nav>
     </header>

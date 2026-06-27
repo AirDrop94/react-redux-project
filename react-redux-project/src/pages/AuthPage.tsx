@@ -13,6 +13,7 @@ import type {
 } from '../types/auth';
 import type { CartItem } from '../types/cart';
 import { getStorageItem } from '../utils/localStorage';
+import Button from '../components/ui/Button';
 
 const initialFormValues: AuthFormValues = {
   username: '',
@@ -92,9 +93,9 @@ function AuthPage() {
 
           <p>Email: {authUser.email}</p>
 
-          <button type="button" onClick={handleLogout}>
+          <Button variant="danger" onClick={handleLogout}>
             Logout
-          </button>
+          </Button>
         </div>
       </section>
     );
@@ -154,9 +155,9 @@ function AuthPage() {
           )}
         </div>
 
-        <button className="auth-form__button" type="submit">
+        <Button className="auth-form__button" type="submit">
           Login
-        </button>
+        </Button>
       </form>
     </section>
   );

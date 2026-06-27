@@ -11,6 +11,7 @@ import {
 } from '../features/products/selectors';
 import { fetchProductById } from '../features/products/productsThunks';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import Button from '../components/ui/Button';
 
 function ProductDetailsPage() {
   const { productId } = useParams();
@@ -73,13 +74,12 @@ function ProductDetailsPage() {
           ${selectedProduct.price}
         </p>
 
-        <button
+        <Button
           className="product-details__button"
-          type="button"
           onClick={() => dispatch(addToCart(selectedProduct))}
         >
           Add to cart
-        </button>
+        </Button>
       </div>
     </section>
   );

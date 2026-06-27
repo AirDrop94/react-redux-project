@@ -6,6 +6,7 @@ import {
   selectCartTotalQuantity,
 } from '../features/cart/selectors';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import Button from '../components/ui/Button';
 
 function CartPage() {
   const dispatch = useAppDispatch();
@@ -49,9 +50,9 @@ function CartPage() {
 
           <p>Total price: ${totalPrice.toFixed(2)}</p>
 
-          <button type="button" onClick={() => dispatch(clearCart())}>
+          <Button variant="danger" onClick={() => dispatch(clearCart())}>
             Clear cart
-          </button>
+          </Button>
         </div>
       </div>
     </section>
