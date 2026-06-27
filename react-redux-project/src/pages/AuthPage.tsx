@@ -14,6 +14,7 @@ import type {
 import type { CartItem } from '../types/cart';
 import { getStorageItem } from '../utils/localStorage';
 import Button from '../components/ui/Button';
+import FormField from '../components/ui/FormField';
 
 const initialFormValues: AuthFormValues = {
   username: '',
@@ -106,54 +107,37 @@ function AuthPage() {
       <form className="auth-form" onSubmit={handleSubmit}>
         <h1>Authorization</h1>
 
-        <div className="auth-form__field">
-          <label htmlFor="username">Login</label>
+        <FormField
+          id="username"
+          label="Login"
+          name="username"
+          value={formValues.username}
+          placeholder="Enter your login"
+          error={errors.username}
+          onChange={handleChange}
+        />
 
-          <input
-            id="username"
-            name="username"
-            type="text"
-            value={formValues.username}
-            onChange={handleChange}
-            placeholder="Enter your login"
-          />
+        <FormField
+          id="email"
+          label="Email"
+          name="email"
+          type="email"
+          value={formValues.email}
+          placeholder="Enter your email"
+          error={errors.email}
+          onChange={handleChange}
+        />
 
-          {errors.username && (
-            <p className="auth-form__error">{errors.username}</p>
-          )}
-        </div>
-
-        <div className="auth-form__field">
-          <label htmlFor="email">Email</label>
-
-          <input
-            id="email"
-            name="email"
-            type="email"
-            value={formValues.email}
-            onChange={handleChange}
-            placeholder="Enter your email"
-          />
-
-          {errors.email && <p className="auth-form__error">{errors.email}</p>}
-        </div>
-
-        <div className="auth-form__field">
-          <label htmlFor="password">Password</label>
-
-          <input
-            id="password"
-            name="password"
-            type="password"
-            value={formValues.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
-          />
-
-          {errors.password && (
-            <p className="auth-form__error">{errors.password}</p>
-          )}
-        </div>
+        <FormField
+          id="password"
+          label="Password"
+          name="password"
+          type="password"
+          value={formValues.password}
+          placeholder="Enter your password"
+          error={errors.password}
+          onChange={handleChange}
+        />
 
         <Button className="auth-form__button" type="submit">
           Login
