@@ -1,0 +1,150 @@
+import { type ChangeEvent, type FormEvent, useState } from 'react';
+
+import { getCartStorageKey } from '../constants/storage';
+import { loginUser, logoutUser } from '../features/auth/authSlice';
+import { selectAuthUser } from '../features/auth/selectors';
+import { validateAuthForm } from '../features/auth/validation';
+import { setCartItems } from '../features/cart/cartSlice';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import type {
+  AuthFormErrors,
+  AuthFormValues,
+  AuthUser,
+} from '../types/auth';
+import type { CartItem } from '../types/cart';
+import { getStorageItem } from '../utils/localStorage';
+import Button from '../components/ui/Button';
+import FormField from '../components/ui/FormField';
+
+const initialFormValues: AuthFormValues = {
+  username: '',
+  email: '',
+  password: '',
+};
+
+function AuthPage() {
+  const dispatch = useAppDispatch();
+  const authUser = useAppSelector(selectAuthUser);
+
+  const [formValues, setFormValues] =
+    useState<AuthFormValues>(initialFormValues);
+  const [errors, setErrors] = useState<AuthFormErrors>({});
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    const fieldName = name as keyof AuthFormValues;
+
+    setFormValues((currentValues) => ({
+      ...currentValues,
+      [fieldName]: value,
+    }));
+
+    setErrors((currentErrors) => ({
+      ...currentErrors,
+      [fieldName]: '',
+    }));
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const validationErrors = validateAuthForm(formValues);
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    const user: AuthUser = {
+      username: formValues.username.trim(),
+      email: formValues.email.trim(),
+    };
+
+    const userCartItems = getStorageItem<CartItem[]>(
+      getCartStorageKey(user),
+      [],
+    );
+
+    dispatch(loginUser(user));
+    dispatch(setCartItems(userCartItems));
+
+    setFormValues(initialFormValues);
+    setErrors({});
+  };
+
+  const handleLogout = () => {
+    const guestCartItems = getStorageItem<CartItem[]>(
+      getCartStorageKey(null),
+      [],
+    );
+
+    dispatch(logoutUser());
+    dispatch(setCartItems(guestCartItems));
+  };
+
+  if (authUser) {
+    return (
+      <section className="auth-page">
+        <div className="auth-card">
+          <h1>Profile</h1>
+
+          <p>
+            You are logged in as <strong>{authUser.username}</strong>.
+          </p>
+
+          <p>Email: {authUser.email}</p>
+
+          <Button variant="danger" onClick={handleLogout}>
+            Logout
+          </Button>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="auth-page">
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <h1>Authorization</h1>
+
+        <FormField
+          id="username"
+          label="Login"
+          name="username"
+          value={formValues.username}
+          placeholder="Enter your login"
+          error={errors.username}
+          onChange={handleChange}
+        />
+
+        <FormField
+          id="email"
+          label="Email"
+          name="email"
+          type="email"
+          value={formValues.email}
+          placeholder="Enter your email"
+          error={errors.email}
+          onChange={handleChange}
+        />
+
+        <FormField
+          id="password"
+          label="Password"
+          name="password"
+          type="password"
+          value={formValues.password}
+          placeholder="Enter your password"
+          error={errors.password}
+          onChange={handleChange}
+        />
+
+        <Button className="auth-form__button" type="submit">
+          Login
+        </Button>
+      </form>
+    </section>
+  );
+}
+
+export default AuthPage;
